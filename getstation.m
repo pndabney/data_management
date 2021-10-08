@@ -45,6 +45,12 @@ sta_query = strcat(staurl, myparams);
 % Obtain query output contents
 query_output = webread(sta_query);
 
+% Check request
+opt = weboptions('Timeout',60);
+if isempty(query_output) == 1
+    error('Error 404 NOT_FOUND: No data found')
+end
+
 % Create to store event info
 filename = 'STATIONS.txt';
 fileID = fopen(fullfile(direc,filename),'w');
