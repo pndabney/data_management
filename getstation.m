@@ -47,7 +47,7 @@ query_output = webread(sta_query);
 
 % Check request
 opt = weboptions('Timeout',60);
-if isempty(query_output) == 1
+if isempty(query_output) 
     error('Error 404 NOT_FOUND: No data found')
 end
 
