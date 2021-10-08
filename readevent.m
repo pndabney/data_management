@@ -1,11 +1,13 @@
 function varargout = readevent(filename)
 % [eventID, eventname, datetim, evloc, mag]=READEVENT(filename)
 %
-% Input:
+% Reads and extracts event (earthquake) data from a text file.
+%
+% INPUT:
 %
 % filename             Text file containing earthquake information, full path included
 %
-% Output:
+% OUTPUT:
 %
 % eventID              Cell array of event based unique ID number assigned by IRIS DMC 
 % eventname            Cell array of location names where event occurred
@@ -13,9 +15,7 @@ function varargout = readevent(filename)
 % evloc                Matrix [lat lon depth] of events
 % mag                  Vector containing the magnitudes of the events
 %
-% filename = '/home/pdabney/Documents/MATLAB/gitrepo/temp_storage/EVENTS.txt';
-%
-% Last modified by pdabney@princeton.edu, 10/07/21
+% Last modified by pdabney@princeton.edu, 10/08/21
 
 % -----------------------------------------------------------------------------------------------
 % ACCESS DATA FROM TEXT FILE
@@ -28,10 +28,10 @@ N = 13; % number of columns
 Fhdr = textscan(fileID,formatSpec, N, 'Delimiter','|');
 
 % Read the data (skipping the header line)
-Fdata = textscan(fileID,'%s %s %f %f %f %s %s %s %s %s %f %s %s','HeaderLines',1,'Delimiter','|')
+Fdata = textscan(fileID,'%s %s %f %f %f %s %s %s %s %s %f %s %s','HeaderLines',1,'Delimiter','|');
 
 % Close file
-fclose(fileID)
+fclose(fileID);
 
 
 % -----------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ eventname = Fdata{13}; % cell array
 
 % -----------------------------------------------------------------------------------------------
 % Optional output
-varns = {eventID, eventname, datetim, evloc, mag);
+varns = {eventID, eventname, datetim, evloc, mag};
 varargout = varns(1:nargout);
 
 
