@@ -1,5 +1,5 @@
-function varargout = getstation(direc, tstart, tend,)
-% [sta_query]=GETSTATION(direc, tstart, tend,
+function varargout = getstation(direc, tstart, tend, net, sta, loc, cha)
+% [sta_query]=GETSTATION(direc, tstart, tend, net, sta, loc, cha)
 %
 % Obtains a list of stations and station data 
 % and stores information in an STATIONS text file.
@@ -9,10 +9,10 @@ function varargout = getstation(direc, tstart, tend,)
 % direc              Directory where the output file will be stored
 % tstart             Start data (format: 'yyyy-MM-ddTHH:mm:ss')
 % tend               End date (format: 'yyyy-MM-ddTHH:mm:ss')
-% network            Network name (e.g. 'IU' or '*')
-% station            Station name (e.g. 'ANMO' or '*')
-% location           Location code (e.g. '00')
-% channel            Channel name (e.g. 'BHZ', 'BH?' or '*')
+% net                Network name (e.g. 'IU' or '*')
+% sta                Station name (e.g. 'ANMO' or '*')
+% loc                Location code (e.g. '00')
+% cha                Channel name (e.g. 'BHZ', 'BH?' or '*')
 %
 % Ouput:
 % 
@@ -22,7 +22,7 @@ function varargout = getstation(direc, tstart, tend,)
 %
 % Requires repository slepian_alpha. See defval.
 %
-% Last modified by pdabney@princeton.edu, 10/07/21
+% Last modified by pdabney@princeton.edu, 10/08/21
 
 % To get data from IRIS Web Services
 staurl = 'http://service.iris.edu/fdsnws/station/1/';
@@ -39,7 +39,7 @@ defval('channel','BH?')
 
 % Format url event query 
 paramform='query?net=%s&sta=%s&loc=%s&cha=%s&starttime=%s&endtime=%s&level=station&format=%s&includecomments=true&nodata=404';
-myparams = sprintf(paramform, network, station, location, channel, tstart, tend, outputf);
+myparams = sprintf(paramform, net, sta, loc, cha, tstart, tend, outputf);
 sta_query = strcat(staurl, myparams);
 
 % Obtain query output contents
