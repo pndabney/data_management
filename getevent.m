@@ -36,12 +36,18 @@ defval('maxmag', 10);
 defval('magtype', 'mw')
 
 % Format url event query 
-paramform='query?starttime=%s&endtime=%s&minmagnitude=%f&maxmagnitude=%f&includeallmagnitudes=true&magtype=%s&orderby=magnitude&format=%s';
-myparams = sprintf(paramform, tstart, tend, minmag, maxmag, magtype,outputf);
+paramform='query?starttime=%s&endtime=%s&minmagnitude=%f&maxmagnitude=%f&magtype=%s&orderby=magnitude&format=%s';
+myparams = sprintf(paramform, tstart, tend, minmag, maxmag, magtype, outputf);
 event_query = strcat(eventurl, myparams);
 
 % Obtain query output contents
 query_output = webread(event_query);
+
+% Check request
+opt = weboptions('Timeout', 60);
+if isempty(query_output) == 1
+    error('Error 404 NOT_FOUND: No data found');
+end
 
 % Create to store event info
 filename = 'EVENTS.txt';
