@@ -1,20 +1,20 @@
 function varargout = getevent(direc, tstart, tend, minmag, maxmag)
 % [event_query]=GETEVENT(direc, tstart, tend, minmag, maxmag)
 %
-% Obtains a list of events and event data (e.g. EventID, Time, Latitude, Longitude,  Depth, Magnitude, etc) and
-% stores information in an EVENTS text file.
+% Obtains a list of events and event data (e.g. EventID, Time, Latitude, Longitude,  Depth, Magnitude, etc)
+% and stores information in an EVENTS text file.
 %
 % Input:
 %
-% direc
-% tstart
-% tend
-% minmag
-% maxmag
+% direc              Directory where the output file will be stored
+% tstart             Start data (format: 'yyyy-MM-ddTHH:mm:ss')
+% tend               End date (format: 'yyyy-MM-ddTHH:mm:ss')
+% minmag             Maximum Magnitude (0-10)
+% maxmag             Minimum Magnitude (0-10)
 %
 % Ouput:
 % 
-% event_query             
+% event_query        URL query (can entered in search bar)       
 %
 % Note:
 %
