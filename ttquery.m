@@ -16,6 +16,10 @@ function varargout=ttquery(direc, model,phases,staloc,evloc,edepth)
 %
 % tt_query      URL query (can entered in search bar)
 %
+% Note:
+%
+% Requires repository slepian_alpha. See defval.
+%
 % Last modified by pdabney@princeton.edu, 10/07/21
 
 % Define default values
