@@ -19,7 +19,7 @@ function fetchEQ(network,station,location,channel,startdate,enddate,minfreq,maxf
 % numfreq          Number of frequency for EVALRESP
 % direc            Directory to put data
 %
-% Last modified by pdabney@princeton.edu, 7/29/21
+% Last modified by pdabney@princeton.edu, 12/03/21
 
 % Request waveform data and put in specified directory
 irisFetch.SACfiles(network,station,location,channel,startdate,enddate,direc);
@@ -28,22 +28,11 @@ irisFetch.SACfiles(network,station,location,channel,startdate,enddate,direc);
 starttime = strrep(startdate,' ','T');
 endtime = strrep(enddate,' ','T');
 
-%--------------------------------------------------------------------------------------------------------------
+
 % Get the instrument response data from iris
-% Format url request
-ini_inresp = 'http://service.iris.edu/irisws/resp/1/query?';
-param_inresp = sprintf('net=%s&sta=%s&loc=%s&cha=%s&starttime=%s&endtime=%s',network,station,location,channel,starttime,endtime);
-query_inresp = strcat(ini_inresp,param_inresp);
-% Obtain web content
-re = webread(query_inresp);
+get_resp(network,station,location,channel,startime,endtime,direc);
 
-% Create RESP file
-filename = sprintf('RESP.%s.%s.%s.%s',network,station,location,channel);
-fileID = fopen(fullfile(direc,filename),'w');
-fprintf(fileID,re);
-fclose(fileID);
 
-%---------------------------------------------------------------------------------------------------------------
 % Evaluate evalresp to get amp and phase files
 % Extract the datetime for year and day
 date = datetime(extractBefore(startdate,' '));
