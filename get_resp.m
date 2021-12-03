@@ -25,7 +25,7 @@ function varargout= get_resp(network,station,location,channel,startdate,enddate,
 % Format url request
 ini_inresp = 'http://service.iris.edu/irisws/resp/1/query?';
 param_inresp = sprintf('net=%s&sta=%s&loc=%s&cha=%s&starttime=%s&endtime=%s',network,station,location,channel,...
-                       starttime,endtime);
+                       startdate,enddate);
 resp_query = strcat(ini_inresp,param_inresp);
 
 % Obtain web content
