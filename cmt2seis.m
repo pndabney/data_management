@@ -1,16 +1,34 @@
-% Script to download multiple seismic traces from IRIS
+function cmt2seis(direc,Mw,Quakes,cmtcode,xmin,xmax,net,sta,loc,cha,t_after,total_len)
+% cmt2seis(direc,fname,path,sdate,edate,xmin,xmax,len)
 %
-% Last modified by pdabney@princeton.edu, 12/2/21
-%% ======================================================================================================         
-% To request data using a cmt catalog a single station for multiple events
+% Requests SAC and  RESP files from IRIS using a cmt catalog a single station for multiple events
+%
+% INPUTS:
+%
+% direc             Directory to store the SAC and RESP files
+% Mw                Scalar seismic moment
+% Quakes            [time depth lat lon Mtensor]
+% cmtcode           CMT codes
+% xmin              Minimum seismic moment
+% xmax              Maximum seismic moment
+% net               Network name 
+% sta               Station name
+% loc               Location code
+% cha               Channel code
+% t_after           Length of time after event start time, in hours
+% total_len         Total length for time series, in hours
+%
+% Last modified by pdabney@princeton.edu, 12/3/21
 
-direc = '~/Documents/Esacfiles/sacfiles/CTAO_range04_21';
 
-% Event information
-% Does not include max and min mblo and mbhi (error message: Undefined function or variable 'cmtcode'. 
-% Error in readCMT (line 153)
-[Quakes, Mw, cmt]=readCMT('apr21.ndk', '/home/pdabney/Documents/infiles/CMT/',datenum('2021-04-01 00:00:01'),...
-datenum('2021-04-15 00:00:01'));
+% Default values
+defval('direc', '~/Documents/Esacfiles/sacfiles/CTAO');
+defval('network','IU');
+defval('station','CTAO');
+defval('channel','BHZ');
+defval('location', '00');
+defval('t_after', 20);
+defval('T_len', 206);
 
 
 % Only keep events within a specific range
@@ -19,12 +37,10 @@ Quakes(index,:)=[];
 cmt(index)=[];
 Mw(index)=[];
 
-
 % Assumes you want a single long time series
 starttime = datetime(Quakes(:,1),'ConvertFrom', 'datenum');
-sstart = starttime + hours(20);
-send = sstart + hours(206);
-
+sstart = starttime + hours(t_after);
+send = sstart + hours(len);
 
 % For overall time for the Resp file
 resp_snum = min(datenum(sstart));
@@ -32,16 +48,8 @@ resp_enum = max(datenum(send));
 resp_sdate = datetime(resp_snum, 'ConvertFrom', 'datenum', 'Format','yyyy-MM-dd''T''HH:mm:ss');
 resp_edate = datetime(resp_enum, 'ConvertFrom', 'datenum', 'Format','yyyy-MM-dd''T''HH:mm:ss');
 
-
-% Station Info
-network = 'IU';
-station = 'CTAO';
-channel = 'BHZ';
-location = '00';
-
-
 % First obtain RESP file
-get_resp(network,station,location,channel,startdate,enddate,direc);
+get_resp(network,station,location,channel,string(resp_sdate),string(resp_edate),direc);
 
 % Loop through all the events
 for i = 1:length(Mw)
@@ -51,4 +59,7 @@ end
 
 
 
+
+
+end
 
