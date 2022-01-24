@@ -1,5 +1,5 @@
 function varargout=get_apssdata(direc, type, folder, filename)
-% [content] = get_apssdata(direc, type, folder, filename)
+% [url_request] = get_apssdata(direc, type, folder, filename)
 %
 % Request calibrated APSS (Auxiliary Sensor Suite) data, TWINS (Temperature and Wind for
 % InSight) or PS (Pressure  Sensor) and save as a csv data table.
@@ -14,14 +14,14 @@ function varargout=get_apssdata(direc, type, folder, filename)
 %
 % Output:
 %
-% content            Table of TWINS data (N x 25)
+% url_request        String of the URL request
 %
 % Notes:
 %
 % See https://atmos.nmsu.edu/data_and_services/atmospheres_data/INSIGHT/insight.html for more
-% details about the TWINS data format and content.
+% details about the APSS data format and content.
 %
-% Last modified by pdabney@princeton.edu, 01/07/2022
+% Last modified by pdabney@princeton.edu, 01/24/2022
 
 % Default values
 defval('folder', 'sol_0211_0300')
@@ -36,20 +36,14 @@ end
 
 % Base url
 web_directory = sprintf('https://atmos.nmsu.edu/PDS/data/PDS4/InSight/%s/data_calibrated', datatype);
-
 url_request = strjoin({web_directory, folder, filename}, '/');
 
-% Retrieve data and store as a table
-content = webread(url_request);
+% Retrieve and save the data as a csv file
+websave(fullfile(direc,filename), url_request);
 
-% Save the data as a csv file
-writetable(content, [direc, filename])
-
-
-% Option output
-varns={content};
+% Optional output
+varns={url_request};
 varargout=varns(1:nargout);
-
 
 end
 
