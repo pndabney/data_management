@@ -1,5 +1,5 @@
 function varargout= get_resp(network,station,location,channel,startdate,enddate,direc)
-% [web_query] = get_resp(network,station,location,channel,startdate,enddate,direc)
+% [resp_query] = get_resp(network,station,location,channel,startdate,enddate,direc)
 %
 % Requests instrument response data from IRIS and saves the data in a directory.
 % Instrument response data is in the format of a RESP file. 
@@ -10,7 +10,7 @@ function varargout= get_resp(network,station,location,channel,startdate,enddate,
 % station          Station name [e.g. 'ANMO']
 % location         Location code [e.g. '00']
 % channel          Component of interest [e.g. 'BHZ']
-% startdate        Start date [format: 'yyyy-mm-ddThh:mm:ss']
+% startdate        Start date [format: 'yyyy-mm-ddThh:mm:]
 % enddate          End Date [format: 'yyyy-mm-ddThh:mm:ss']
 % direc            Directory to put data
 %
@@ -18,14 +18,12 @@ function varargout= get_resp(network,station,location,channel,startdate,enddate,
 %
 % resp_query       URL query used (can entered in search bar)
 %
-% Last modified by pdabney@princeton.edu, 12/03/21
-
+% Last modified by pdabney@princeton.edu, 01/11/22
 
 
 % Format url request
 ini_inresp = 'http://service.iris.edu/irisws/resp/1/query?';
-param_inresp = sprintf('net=%s&sta=%s&loc=%s&cha=%s&starttime=%s&endtime=%s',network,station,location,channel,...
-                       startdate,enddate);
+param_inresp = sprintf('net=%s&sta=%s&loc=%s&cha=%s&starttime=%s&endtime=%s',network,station,location,channel,startdate,enddate);
 resp_query = strcat(ini_inresp,param_inresp);
 
 % Obtain web content
