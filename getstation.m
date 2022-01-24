@@ -1,5 +1,5 @@
-function varargout = getstation(direc, tstart, tend, net, sta, loc, cha)
-% [sta_query]=GETSTATION(direc, tstart, tend, net, sta, loc, cha)
+function varargout = getstation(direc, tstart, tend, net, sta, loc, cha,ofile)
+% [sta_query]=GETSTATION(direc, tstart, tend, net, sta, loc, cha, ofile)
 %
 % Obtains a list of stations and station data 
 % and stores information in an STATIONS text file.
@@ -13,6 +13,7 @@ function varargout = getstation(direc, tstart, tend, net, sta, loc, cha)
 % sta                Station name (e.g. 'ANMO' or '*')
 % loc                Location code (e.g. '00')
 % cha                Channel name (e.g. 'BHZ', 'BH?' or '*')
+% ofile              Optional output filename
 %
 % Ouput:
 % 
@@ -22,7 +23,7 @@ function varargout = getstation(direc, tstart, tend, net, sta, loc, cha)
 %
 % Requires repository slepian_alpha. See defval.
 %
-% Last modified by pdabney@princeton.edu, 10/08/21
+% Last modified by pdabney@princeton.edu, 01/24/2022
 
 % To get data from IRIS Web Services
 staurl = 'http://service.iris.edu/fdsnws/station/1/';
@@ -52,7 +53,13 @@ if isempty(query_output)
 end
 
 % Create to store event info
-filename = 'STATIONS.txt';
+switch nargin
+  case 7
+    filename = sprintf('%s.txt',ofile);
+  case 8
+    tdate = string(datetime('today'), 'yyyy.MM.dd');
+    filename = sprintf('STATIONS.%s.txt',tdate);
+end
 fileID = fopen(fullfile(direc,filename),'w');
 fprintf(fileID, query_output);
 fclose(fileID);
