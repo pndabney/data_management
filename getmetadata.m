@@ -18,7 +18,7 @@ function getmetadata(direc,network,station,startdate,enddate,format)
 % Requires repository slepian_alpha and slepian_oscar. See defval and dat2ul.
 % For more details see https://www.seis-insight.eu/en/science/seis-data/seis-metadata-access.
 %
-% Last modified by pdabney@princeton.edu, 01/24/22
+% Last modified by pdabney@princeton.edu, 04/20/22
 
 
 % Default values
@@ -29,8 +29,8 @@ defval('station','ELYSE')
 defval('format','xml')
 
 % Format url request
-base_request = 'http://ws.ipgp.fr/fdsnws/station/1/query?';
-params = sprintf('network=%s&station=%s&startTime=%s&endTime=%s&level=reponse&format=%s',...
+base_request = 'https://ws.ipgp.fr/fdsnws/station/1/query?';
+params = sprintf('network=%s&station=%s&starttime=%s&endtime=%s&level=response&format=%s',...
                        network,station,startdate,enddate,format);
 metadata_query = [base_request, params];
 
@@ -39,7 +39,7 @@ content = webread(metadata_query);
 % Create metadata file
 date = datevec(startdate,'yyyy-mm-ddTHH:MM:SS');
 jdate = dat2jul(date(2), date(3), date(1));
-filename = sprintf('%s.%s.%.f.%s.metadata.%s',network,station,jdate,level,format);
+filename = sprintf('%s.%s.%.f.%03d.%s.metadata.%s',network,station,date(1),jdate,'response',format);
 fileID = fopen(fullfile(direc,filename),'w');
 fprintf(fileID, content);
 fclose(fileID);
