@@ -31,9 +31,9 @@ fprintf(fileID, '%s\n',S{:});
 fclose(fileID);
 
 % Extract data from file
-% File format should be radius(m), density (kg/m^3), Vp(m/s), Vs(m/s), Qkappa, Qmu, V1(m/s), V2(m/s), iso/aniso
-% V1 and V2 are other velocities which we do not use; therefore, we duplicate the values of Vp and Vs. See
-% Summary of the Green's functions databases from Ceylan et al. (2017) for more details. 
+% File format should be radius(m), density (kg/m^3), Vp(m/s), Vs(m/s), Qkappa, Qmu, V1(m/s), V2(m/s), 
+% iso/aniso. V1 and V2 are other velocities which we do not use; therefore, we duplicate the values 
+% of Vp and Vs. See Summary of the Green's functions databases from Ceylan et al. (2017) for more details. 
 fileID = fopen(fullfile(path,[fname,'.deck']),'r');
 d = textscan(fileID,'%.3f %.4f %.4f %.4f');
 fclose(fileID);
@@ -79,7 +79,7 @@ fileID = fopen(fullfile(path,[fname,'.deck']),'w+');
 % Add header lines
 fprintf(fileID,'%s\n',[fname,'.deck']);
 fprintf(fileID,'%.f %.1f %.f\n',1, 1, 1);
-fprintf(fileID,'%.f %.f %.f\n',length(radius),ics,ocs)
+fprintf(fileID,'%.f %.f %.f\n',length(radius),ics,ocs);
 
 format='%7.f. %7.2f %7.2f %7.2f %8.1f %5.1f %7.2f %7.2f %7.5f\n';
 for i = 1:length(radius)
